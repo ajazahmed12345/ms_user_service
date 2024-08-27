@@ -1,7 +1,7 @@
 package com.ajaz.userservice.services;
 
 import com.ajaz.userservice.dtos.UserDto;
-import com.ajaz.userservice.exceptions.ApiResponse;
+import com.ajaz.userservice.models.ApiResponse;
 import com.ajaz.userservice.exceptions.UserNotFoundException;
 import com.ajaz.userservice.models.User;
 import com.ajaz.userservice.repositories.UserRepository;
@@ -34,6 +34,7 @@ public class UserServiceImpl implements UserService{
         Optional<User> userOptional = userRepository.findById(id);
 
         if(userOptional.isEmpty()){
+            log.info("User with the id: " + id + " does not exist");
             throw new UserNotFoundException("User with id: " + id + " not found in Database.");
         }
         log.info("User with the id: " + id + " exists: {}", userOptional.get());
@@ -45,6 +46,7 @@ public class UserServiceImpl implements UserService{
 
         Optional<User>  userOptional = userRepository.findById(userId);
         if(userOptional.isEmpty()){
+            log.info("User with the id: " + userId + " does not exist");
             throw new UserNotFoundException("User you are trying to update with id: " + userId + " does not exist.");
         }
 
@@ -54,6 +56,7 @@ public class UserServiceImpl implements UserService{
         existingUser.setPhoneNumber(checkNullOrEmpty(userDto.getPhoneNumber()) ? existingUser.getPhoneNumber() : userDto.getPhoneNumber());
         existingUser.setAddress(checkNullOrEmpty(userDto.getAddress()) ? existingUser.getAddress() : userDto.getAddress());
 
+        log.info("Updating user with userId: " + userId);
         return userRepository.save(existingUser);
 
     }
@@ -62,6 +65,7 @@ public class UserServiceImpl implements UserService{
     public ApiResponse deleteUserById(Long id) throws UserNotFoundException {
         Optional<User> userOptional = userRepository.findById(id);
         if(userOptional.isEmpty()){
+            log.info("User with the id: " + id + " does not exist");
             throw new UserNotFoundException("User you are trying to delete with id: " + id + " does not exist.");
         }
 
@@ -72,7 +76,7 @@ public class UserServiceImpl implements UserService{
                 .success(true)
                 .httpStatus(HttpStatus.OK)
                 .build();
-
+        log.info("Deleted the user with userId: " + id + " and ApiResponse is: {}", response);
         return response;
 
     }

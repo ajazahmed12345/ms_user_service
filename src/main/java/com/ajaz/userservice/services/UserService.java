@@ -2,7 +2,7 @@ package com.ajaz.userservice.services;
 
 
 import com.ajaz.userservice.dtos.UserDto;
-import com.ajaz.userservice.exceptions.ApiResponse;
+import com.ajaz.userservice.models.ApiResponse;
 import com.ajaz.userservice.exceptions.UserNotFoundException;
 import com.ajaz.userservice.models.User;
 
