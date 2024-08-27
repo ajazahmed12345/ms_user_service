@@ -5,6 +5,7 @@ import com.ajaz.userservice.exceptions.ApiResponse;
 import com.ajaz.userservice.exceptions.UserNotFoundException;
 import com.ajaz.userservice.models.User;
 import com.ajaz.userservice.repositories.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import java.util.Optional;
 
 @Service
 @Primary
+@Slf4j
 public class UserServiceImpl implements UserService{
 
     private UserRepository userRepository;
@@ -34,7 +36,7 @@ public class UserServiceImpl implements UserService{
         if(userOptional.isEmpty()){
             throw new UserNotFoundException("User with id: " + id + " not found in Database.");
         }
-
+        log.info("User with the id: " + id + " exists: {}", userOptional.get());
         return userOptional.get();
     }
 
